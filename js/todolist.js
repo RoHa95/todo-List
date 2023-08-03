@@ -1,5 +1,6 @@
 //let todos = [];
 let filterValue = "all";
+
 //selecting
 const todoInput = document.querySelector(".todo-input");
 const todoForm = document.querySelector(".todo-form");
@@ -12,7 +13,6 @@ selectedfilter.addEventListener("change", (e) => {
   filterValue = e.target.value;
   filterTodos();
 });
-
 document.addEventListener("DOMContentLoaded", (e) => {
   const todos = getAllTodos();
   createTodos(todos);
@@ -20,14 +20,14 @@ document.addEventListener("DOMContentLoaded", (e) => {
 function addNewTodo(e) {
   e.preventDefault();
 
+  if (!todoInput.value) return null;
   const newTodo = {
     id: Date.now(),
     createdAt: new Date().toISOString(),
     title: todoInput.value.trim(),
     isCompleted: false,
   };
-
-  //todos.push(newTodo);
+  // todos.push(newTodo);
   saveTodo(newTodo);
   filterTodos();
 }
@@ -60,7 +60,7 @@ function createTodos(todos) {
   });
 }
 function filterTodos(e) {
-  // const selected = e.target.value;
+  //const selected = e.target.value;
   const todos = getAllTodos();
   switch (filterValue) {
     case "all": {
@@ -81,14 +81,14 @@ function filterTodos(e) {
       createTodos(todos);
   }
 }
+
 function removeTodo(e) {
-  const todoId = Number(e.target.dataset.todoId);
   let todos = getAllTodos();
+  const todoId = Number(e.target.dataset.todoId);
   todos = todos.filter((t) => t.id !== todoId);
   saveAllTodos(todos);
   filterTodos();
 }
-
 function checkTodo(e) {
   const todoId = Number(e.target.dataset.todoId);
   const todos = getAllTodos();

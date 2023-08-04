@@ -6,6 +6,8 @@ const todoInput = document.querySelector(".todo-input");
 const todoForm = document.querySelector(".todo-form");
 const todoList = document.querySelector(".todolist");
 const selectedfilter = document.querySelector(".filter-todos");
+const editOk = document.querySelector(".edit-todo-input");
+const closBtn = document.querySelector(".close-modal");
 
 //events
 todoForm.addEventListener("submit", addNewTodo);
@@ -39,6 +41,9 @@ function createTodos(todos) {
     <span class="todo__createdAt">${new Date(todo.createdAt).toLocaleDateString(
       "fa-IR"
     )}</span>
+    <button class="todo__edit" data-todo-id=${todo.id}>
+                <i class="far fa-edit"></i>
+              </button>
     <button class="todo__check" data-todo-id=${
       todo.id
     }><i class=" far fa-check-square"></i></button>
@@ -57,6 +62,11 @@ function createTodos(todos) {
   const checkBtn = [...document.querySelectorAll(".todo__check")];
   checkBtn.forEach((btn) => {
     btn.addEventListener("click", checkTodo);
+  });
+
+  const editBtn = [...document.querySelectorAll(".todo__edit")];
+  editBtn.forEach((btn) => {
+    btn.addEventListener("click", editTodo);
   });
 }
 function filterTodos(e) {
@@ -97,6 +107,71 @@ function checkTodo(e) {
   saveAllTodos(todos);
   filterTodos();
 }
+function editTodo(e) {
+  // document.querySelector(".backdrop").classList.remove("hidden");
+  // document.querySelector(".modal").classList.remove("hidden");
+  const todoId = Number(e.target.dataset.todoId);
+  const todos = getAllTodos();
+  const todo = todos.find((t) => t.id === todoId);
+  createModal(todo);
+  console.log(todo);
+}
+function createModal(todoEdit) {
+  let result = `<div class="backdrop"></div>
+  <div class="modal">
+    <div
+      style="display: flex; justify-content: space-between"
+      class="modal__header"
+    >
+      <h2 style="display: inline; padding-bottom: 1.2rem">ویرایش</h2>
+      <button class="close-modal">&times;</button>
+    </div>
+    <form style="display: flex; justify-content: center" class="todo-form">
+      <input type="text" class="edit-todo-input" value=${todoEdit.title} />
+      <button class="edit-ok-button" type="submit" data-todoedit-id=${todoEdit.id}>
+        <i class="fas fa-edit"></i>
+      </button>
+    </form>
+  </div>`;
+
+  document.querySelector(".modal-container").innerHTML = result;
+  const editBtn = document.querySelector(".edit-ok-button");
+  editBtn.addEventListener("click", (e) => {
+    console.log("clicked", e.target.dataset.todoeditId);
+    const todoId = Number(e.target.dataset.todoeditId);
+    const todos = getAllTodos();
+    const todo = todos.find((t) => t.id === todoId);
+    const newInput = document.querySelector(".edit-todo-input");
+    todo.title = newInput.value;
+    console.log(newInput.value);
+    saveAllTodos(todos);
+    filterTodos();
+  });
+  const closBtn = document.querySelector(".close-modal");
+  closBtn.addEventListener("click", (e) => {
+    document.querySelector(".modal-container").innerHTML = "";
+  });
+  const backdrop = document.querySelector(".backdrop");
+  backdrop.addEventListener("click", (e) => {
+    document.querySelector(".modal-container").innerHTML = "";
+  });
+}
+function updateTodo(e) {
+  e.preventDefault();
+  console.log(newTodo);
+  if (!editOk.value) return null;
+  const newTodo = {
+    id: e.id,
+    createdAt: new Date().toISOString(),
+    title: editOk.value.trim(),
+    isCompleted: false,
+  };
+  console.log(newTodo);
+  // todos.push(newTodo);
+  saveTodo(newTodo);
+  filterTodos();
+}
+
 //local storage
 function getAllTodos() {
   const savedTodos = JSON.parse(localStorage.getItem("todos")) || [];

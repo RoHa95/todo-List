@@ -10,7 +10,6 @@
   font-weight: regular;
   src: url("/assets/fonts/IRANYekanWebRegular.woff") format("woff");
 }
-
 * {
   margin: 0;
   padding: 0;
@@ -124,6 +123,9 @@ form button:hover {
 .fa-check-square {
   color: var(--primaryColor);
 }
+.fa-edit {
+  color: var(--primaryColor);
+}
 .completed {
   text-decoration: line-through;
   opacity: 0.5;
@@ -206,4 +208,98 @@ button > i {
 }
 .close-modal {
   cursor: pointer;
+}
+@media screen and (max-width: 640px) {
+  .container {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-container {
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+  }
+  .todolist {
+    width: 100%;
+  }
+  .todo-container {
+    margin-top: 1rem;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  form {
+    width: 100%;
+  }
+  form input {
+    /* flex: 1; */
+    font-weight: bold;
+    width: 80%;
+  }
+
+  form input,
+  form button {
+    border: none;
+    outline: none;
+    background-color: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  form button {
+    color: var(--primaryColor);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  .todo {
+    background-color: var(--mainWhite);
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    transition: all 0.3s ease;
+
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+  }
+  .todo__title {
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
+  select {
+    appearance: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    /* padding: 1rem; */
+    color: var(--primaryColor);
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .select {
+    margin-left: 0;
+    background-color: #fff;
+    cursor: pointer;
+    width: 5rem;
+    position: relative;
+    border: 2px solid var(--secondayGrey);
+    font-weight: bold;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-top: 0.2rem;
+  }
+  .select::after {
+    content: "\25BC";
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    color: var(--primaryColor);
+    pointer-events: none;
+  }
 }
